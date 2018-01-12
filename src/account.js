@@ -1,5 +1,5 @@
-
-const getCurrentDate : function () {
+const Todo = require('./todo.js');
+const getCurrentDate = function () {
   let date = new Date();
   day = date.getDay();
   month = date.getMonth()+1;
@@ -14,7 +14,7 @@ const Account = function(name,password){
 }
 
 Account.prototype = {
-  addTodo : function (title) {
+  addTodo : function (todoTitle) {
     let date = getCurrentDate();
     let todo = new Todo(todoTitle);
     if(!Object.keys(this.todos).includes(date)){

@@ -64,6 +64,9 @@ Todo.prototype={
   },
   getTask:function (srNo) {
     return this.tasks[srNo];
+  },
+  getTitle: function() {
+    return this.title;
   }
 }
 
