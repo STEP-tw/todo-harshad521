@@ -9,14 +9,17 @@ const Todo = function(title){
 Todo.prototype={
   incrementSrNo:function(){
     this.srNo++;
+    return;
   },
-  addTask : function(statement){
-    let task = new Task(statement);
+  addTask : function(title){
+    let task = new Task(title);
     this.tasks[this.getSrNo()] = task;
     this.incrementSrNo();
+    return;
   },
   deleteTask: function(srNo){
     delete this.tasks[srNo];
+    return;
   },
   getSrNo:function(){
     return this.srNo;
@@ -42,18 +45,22 @@ Todo.prototype={
   },
   setTaskTitle : function (srNo,title) {
     this.getTask(srNo).setTitle(title);
+    return;
   },
   editTodoTitle : function(title) {
     this.title = title;
+    return;
   },
   addTodoDescription : function(description){
     this.description=description;
+    return;
   },
   getTaskStatus : function (srNo) {
     return this.getTask(srNo).getStatus();
   },
   setTaskStatus : function (srNo,status) {
     this.getTask(srNo).setStatus(status);
+    return;
   },
   getTask:function (srNo) {
     return this.tasks[srNo];
