@@ -1,9 +1,9 @@
 const Task = require("./task.js");
 const Todo = function(title){
-  this.title=title;
-  this.description = "";
-  this.tasks = {};
-  this.srNo=1;
+  this.title= title;
+  this.description= "";
+  this.tasks= {};
+  this.srNo= 1;
 };
 
 Todo.prototype={

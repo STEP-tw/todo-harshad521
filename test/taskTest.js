@@ -13,9 +13,9 @@ describe("Create Task",function () {
   })
 })
 
-describe("Test task prototypes",function () {
+describe("Test todo prototypes",function () {
   let task;
-  beforeEach(function() {
+  before(function() {
     task = new Task("To do something");
   });
   it("getStatus => Should return status of task",function(){
