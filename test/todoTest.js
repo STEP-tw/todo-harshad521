@@ -15,19 +15,19 @@ describe("Todo",function () {
       assert.deepInclude(todo,expected);
     })
   })
-  describe("Test todo prototypes",function () {
-    let todo;
-    before(function() {
-      todo = new Todo("Todo for work")
-    })
-    it("It Should create the object with its attribute",function(){
-      let expected = {
-        title: "Todo for work",
-        description : "",
-        tasks : {},
-        srNo: 1
-      }
-      assert.deepInclude(todo,expected);
-    })
-  })
+  // describe("Test todo prototypes",function () {
+  //   let todo;
+  //   before(function() {
+  //     todo = new Todo("Todo for work")
+  //   })
+  //   it("It Should create the object with its attribute",function(){
+  //     let expected = {
+  //       title: "Todo for work",
+  //       description : "",
+  //       tasks : {},
+  //       srNo: 1
+  //     }
+  //     assert.deepInclude(todo,expected);
+  //   })
+  // })
 });
