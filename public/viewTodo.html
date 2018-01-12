@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="./js/viewTodo.js"></script>
+    <title>View ToDo</title>
+  </head>
+  <body>
+    Date:<input type='date' id='date' oninput="getTodoTitlesOnDate()"/>
+    Todo Title : <input list='todoTitles' id='todoTitle' oninput="getTodo()" />
+    <datalist id="todoTitles"></datalist>
+    <div id="tasks">
+
+    </div>
+  </body>
+</html>

@@ -2,7 +2,10 @@ let fs = require('fs');
 const timeStamp = require('./time.js').timeStamp;
 const http = require('http');
 const WebApp = require('./webapp');
-let registered_users = [{userName:'harshad',name:'Harshad Vijay Thombare',password:'ht1234'}];
+const TodoApp = require('./src/todoApp.js');
+const myApp =  new TodoApp();
+myApp.addAccount('harshad','Harshad Vijay Thombare','ht1234')
+myApp.addAccount('jack','Jack Sparrow','js1234');
 
 const getContentType = function(fileExtension){
   let contentType={
@@ -35,12 +38,12 @@ let logRequest = (req,res)=>{
     `COOKIES=> ${toS(req.cookies)}`,
     `BODY=> ${toS(req.body)}`,''].join('\n');
   fs.appendFile('request.log',text,()=>{});
-  console.log(`${req.method} ${req.url}`);
+  //console.log(`${req.method} ${req.url}`);
 }
 
 let loadUser = (req,res)=>{
   let sessionid = req.cookies.sessionid;
-  let user = registered_users.find(u=>u.sessionid==sessionid);
+  let user = myApp.getUserBySessionId(sessionid);
   if(sessionid && user){
     req.user = user;
   }
@@ -82,7 +85,6 @@ app.use(logRequest);
 app.use(loadUser);
 app.use(redirectToIndexPage);
 app.use(dontAllowWithoutLogin);
-//app.use(redirectLoggedOutUserToIndex);
 app.useAfter(handleStaticFileReq);
 
 
@@ -102,7 +104,9 @@ app.get('/login',(req,res)=>{
 
 
 app.post('/login',(req,res)=>{
-  let user = registered_users.find(u=>u.userName==req.body.userName && u.password==req.body.password);
+   let userName = req.body.userName;
+   let password =  req.body.password
+   let user =  myApp.areUserDetailsValid(userName,password) && myApp.getAccount(userName);
   if(!user) {
     res.setHeader('Set-Cookie',`loginFailed=true; Max-Age = 5`);
     res.redirect('/login');
@@ -110,13 +114,68 @@ app.post('/login',(req,res)=>{
   }
   let sessionid = new Date().getTime();
   res.setHeader('Set-Cookie',`sessionid=${sessionid}`);
-  user.sessionid = sessionid;
+  myApp.setSessionId(userName,sessionid);
   res.redirect('/index.html');
 });
 
 app.get('/userName',(req,res)=>{
   req.user && res.write(req.user.name);
   res.end();
+});
+
+app.post('/createTodo',(req,res)=>{
+   let userName = req.user.username;
+   let todoTitle = req.body.todoTitle;
+   myApp.addTodo(userName,todoTitle);
+   res.end();
+});
+
+app.post('/addTask',(req,res)=>{
+   let userName = req.user.username;
+   let todoTitle = req.body.todoTitle;
+   let taskTitle = req.body.taskTitle;
+   let date = req.body.date
+   myApp.insertTaskInTodo(userName,date,todoTitle,taskTitle);
+   let todo = myApp.getTodo(userName,date,todoTitle);
+   res.write(toS(todo));
+   console.log(myApp.getAccount(userName));
+   res.end();
+});
+
+app.post('/changeStatus',(req,res)=>{
+   let userName = req.user.username;
+   let todoTitle = req.body.todoTitle;
+   let date = req.body.date;
+   let srNo = req.body.srNo;
+   let status = req.body.status
+   myApp.setTaskStatus(userName,date,todoTitle,srNo,status)
+   res.end();
+});
+
+app.post('/getTodoTitlesOnDate',(req,res)=>{
+   let userName = req.user.username;
+   let date = req.body.date;
+   let titles=myApp.getTodoTitlesOnDate(userName,date);
+   res.write(toS(titles));
+   res.end();
+});
+app.post('/getTodo',(req,res)=>{
+  debugger;
+   let userName = req.user.username;
+   let date = req.body.date;
+   let todoTitle=req.body.todoTitle;
+   let todo = myApp.getTodo(userName,date,todoTitle)
+   console.log(todo);
+   res.write(toS(todo));
+   res.end();
+});
+
+
+app.get('/getToken',(req,res)=>{
+   let userName = req.user.username;
+   let token = myApp.getToken(userName);
+   res.write(toS(token));
+   res.end();
 });
 
 app.get('/logout',(req,res)=>{

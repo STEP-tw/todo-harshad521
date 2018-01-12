@@ -1,5 +1,6 @@
 const Task = require("./task.js");
-const Todo = function(title){
+const Todo = function(title,token){
+  this.todoToken = token ;
   this.title= title;
   this.description= "";
   this.tasks= {};
@@ -67,6 +68,10 @@ Todo.prototype={
   },
   getTitle: function() {
     return this.title;
+  },
+  setTitle: function (newTitle) {
+    this.title = newTitle;
+    return;
   }
 }
 

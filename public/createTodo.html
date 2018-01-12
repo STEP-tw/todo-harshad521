@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="./js/createTodo.js"></script>
+    <title>Create ToDo</title>
+    <label id="todoToken" ></label>
+  </head>
+  <body>
+    Title : <input id="todoTitle" name ="todoTitle" size="100">
+    <button id="createTodoButton" onclick="createTodo()">Create Todo</button>
+    <button id="editTitleButton" onclick="enableCreate()" class="editTodoButton">Edit Todo</button><br /><br /><br /><br />
+    <div id="tasks">
+    </div>
+    <input id="taskTitle" name ="taskTitle" size="100">
+    <button id="addTask" onclick="addTask()">Add Task</button>
+  </body>
+</html>
