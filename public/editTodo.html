@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="./js/editTodo.js"></script>
+    <title>Edit Todo</title>
+  </head>
+  <body>
+    Date:<input type='date' id='date' oninput="getTodoTitlesOnDate()"/>
+    Todo Title : <input list='todoTitles' id='todoTitle'/>
+    <button id='edit' onclick='getTodo()'>Edit Todo</button>
+    <datalist id="todoTitles"></datalist>
+  </body>
+</html>
