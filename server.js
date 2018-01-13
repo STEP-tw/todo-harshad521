@@ -70,15 +70,16 @@ const dontAllowWithoutLogin = (req,res)=>{
   if(req.url!='/login'&&!req.user) res.redirect('/login');
 }
 
-const redirectToIndexPage = (req,res)=>{
-  if(req.url=="/") res.redirect('/index.html');
-}
 const cookieParse = function(cookies){
   try{
     return JSON.parse(cookies.loginFailed.split(",")[0]);
   }catch(e){}
 }
 
+const redirectToIndexPage = (req,res)=>{
+  //if(req.url=="/") res.redirect('/index.html');
+  if(req.urlIsOneOf(['/','/login'])&&req.user) res.redirect('/index.html');
+}
 let app = WebApp.create();
 
 app.use(logRequest);
@@ -160,7 +161,6 @@ app.post('/getTodoTitlesOnDate',(req,res)=>{
    res.end();
 });
 app.post('/getTodo',(req,res)=>{
-  debugger;
    let userName = req.user.username;
    let date = req.body.date;
    let todoTitle=req.body.todoTitle;
@@ -168,6 +168,17 @@ app.post('/getTodo',(req,res)=>{
    console.log(todo);
    res.write(toS(todo));
    res.end();
+});
+
+app.post('/deleteTodo',(req,res)=>{
+  let userName = req.user.username;
+  let date = req.body.date;
+  let todoTitle=req.body.todoTitle;
+  console.log('in');
+  myApp.deleteTodo(userName,date,todoTitle)
+  let titles=myApp.getTodoTitlesOnDate(userName,date);
+  res.write(toS(titles));
+  res.end();
 });
 
 

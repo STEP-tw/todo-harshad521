@@ -40,7 +40,10 @@ Account.prototype = {
     return this.getTodosOnDate(date)[todoTitle];
   },
   deleteTodo : function(date,todoTitle){
-    delete this.getTodo(date,todoTitle);
+    //delete this.getTodo(date,todoTitle);
+    console.log(date,todoTitle);
+    delete this.todos[date][todoTitle];
+    console.log(this.getTodo(date,todoTitle));
     return;
   },
   insertTaskInTodo: function(date,todoTitle,task){
@@ -72,8 +75,8 @@ Account.prototype = {
     delete this.sessionid;
   },
   getTodosOnDate:function(date) {
-    console.log(date);
-    console.log(this.todos);
+    // console.log(date);
+    // console.log(this.todos);
     return this.todos[date];
   },
   getTodoTitlesOnDate:function(date) {

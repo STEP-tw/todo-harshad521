@@ -73,6 +73,10 @@ TodoApp.prototype = {
   },
   getToken : function(username){
     return this.getAccount(username).getToken();
+  },
+  deleteTodo : function(username,date,todoTitle){
+    this.getAccount(username).deleteTodo(date,todoTitle);
+    return;
   }
 }
 module.exports = TodoApp;
