@@ -3,23 +3,22 @@ const createTodo = function() {
   let todoTitle = document.getElementById("todoTitle").value;
   let token = document.getElementById("todoToken").innerText;
   let xmlReq =  new XMLHttpRequest();
-  xmlReq.addEventListener('load',disableCreateButton)
   xmlReq.open("POST",link)
   xmlReq.send(`todoTitle=${todoTitle}&token=${token}`);
+  disableCreateButton();
 }
 
 const disableCreateButton = function () {
   document.getElementById("createTodoButton").style.visibility = "hidden";
-  document.getElementById("editTitleButton").style.visibility = "visible";
   document.getElementById("todoTitle").readOnly = true;
 }
 
-const enableCreateButton = function(){
-  document.getElementById("todoTitle").readOnly = false;
-  document.getElementById("createTodoButton").style.visibility = "visible";
-  document.getElementById("editTodoButton").style.visibility = "hidden";
-  link = '/editTodoTitle';
-}
+// const enableCreateButton = function(){
+//   document.getElementById("todoTitle").readOnly = false;
+//   document.getElementById("createTodoButton").style.visibility = "visible";
+//   document.getElementById("editTodoButton").style.visibility = "hidden";
+//   link = '/editTodoTitle';
+// }
 
 const displayToken = function(){
   document.getElementById('todoToken').innerText = this.responseText;

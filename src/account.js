@@ -40,10 +40,7 @@ Account.prototype = {
     return this.getTodosOnDate(date)[todoTitle];
   },
   deleteTodo : function(date,todoTitle){
-    //delete this.getTodo(date,todoTitle);
-    console.log(date,todoTitle);
     delete this.todos[date][todoTitle];
-    console.log(this.getTodo(date,todoTitle));
     return;
   },
   insertTaskInTodo: function(date,todoTitle,task){
@@ -80,14 +77,16 @@ Account.prototype = {
     return this.todos[date];
   },
   getTodoTitlesOnDate:function(date) {
-    return Object.keys(this.getTodosOnDate(date));
+    let todosOnGivenDate = this.getTodosOnDate(date);
+    return Object.keys(todosOnGivenDate);
   },
   setTodoTitle:function(date,token,newTitle) {
-    let todoTitleList = getTodoTitlesOnDate(date)
+    let todoTitleList = this.getTodoTitlesOnDate(date)
     let AccountReference = this;
-    let todo = todoTitleList.find(function(todoTitle){
-      return AccountReference.getTodosOnDate(date)[todoTitle].token == token;
+    let todoTitle = todoTitleList.find(function(title){
+      return AccountReference.getTodo(date,title).getToken() == token;
     })
+    let todo = this.getTodo(date,todoTitle);
     todo.setTitle(newTitle);
   },
   getToken: function () {

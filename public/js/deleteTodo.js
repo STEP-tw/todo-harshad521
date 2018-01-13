@@ -24,7 +24,6 @@ const getCurrentDate = function (date) {
 }
 
 const updateTodoTitleList = function() {
-  console.log('in123');
   let todoTitleList = JSON.parse(this.responseText);
   let titles = todoTitleList.reduce(function(accumulate,todoTitle,index){
     return accumulate+=`<option value="${todoTitle}">`;

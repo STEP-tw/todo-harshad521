@@ -5,11 +5,17 @@
     <link rel="stylesheet" href="/css/style.css">
     <script type="text/javascript" src="./js/editTodo.js"></script>
     <title>Edit Todo</title>
+    <label class="todoToken"id="todoToken" ></label>
   </head>
   <body>
     Date:<input type='date' id='date' oninput="getTodoTitlesOnDate()"/>
     Todo Title : <input list='todoTitles' id='todoTitle'/>
     <button id='edit' onclick='getTodo()'>Edit Todo</button>
     <datalist id="todoTitles"></datalist>
+    <div id='editBlock'>
+
+    </div>
+    <input id="taskTitle" name ="taskTitle" size="100">
+    <button id="addTask" onclick="addTask()">Add Task</button>
   </body>
 </html>

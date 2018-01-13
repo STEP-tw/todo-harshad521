@@ -72,6 +72,9 @@ Todo.prototype={
   setTitle: function (newTitle) {
     this.title = newTitle;
     return;
+  },
+  getToken: function(){
+    return this.todoToken;
   }
 }
 

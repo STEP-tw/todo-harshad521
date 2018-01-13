@@ -77,7 +77,6 @@ const cookieParse = function(cookies){
 }
 
 const redirectToIndexPage = (req,res)=>{
-  //if(req.url=="/") res.redirect('/index.html');
   if(req.urlIsOneOf(['/','/login'])&&req.user) res.redirect('/index.html');
 }
 let app = WebApp.create();
@@ -139,7 +138,30 @@ app.post('/addTask',(req,res)=>{
    myApp.insertTaskInTodo(userName,date,todoTitle,taskTitle);
    let todo = myApp.getTodo(userName,date,todoTitle);
    res.write(toS(todo));
-   console.log(myApp.getAccount(userName));
+   res.end();
+});
+
+app.post('/setTaskTitle',(req,res)=>{
+   let userName = req.user.username;
+   let todoTitle = req.body.todoTitle;
+   let newTaskTitle = req.body.taskTitle;
+   let date = req.body.date;
+   let srNo = req.body.srNo;
+   myApp.setTaskTitle(userName,date,todoTitle,srNo,newTaskTitle);
+   let todo = myApp.getTodo(userName,date,todoTitle);
+   res.write(toS(todo));
+   res.end();
+});
+
+app.post('/setTodoTitle',(req,res)=>{
+   let userName = req.user.username;
+   let newTodoTitle = req.body.todoTitle;
+   let date = req.body.date;
+   let todoToken = req.body.todoToken;
+   myApp.setTodoTitle(userName,date,todoToken,newTodoTitle);
+   console.log(toS(myApp));
+   let todo = myApp.getTodo(userName,date,newTodoTitle)
+   res.write(toS(todo));
    res.end();
 });
 
@@ -165,7 +187,6 @@ app.post('/getTodo',(req,res)=>{
    let date = req.body.date;
    let todoTitle=req.body.todoTitle;
    let todo = myApp.getTodo(userName,date,todoTitle)
-   console.log(todo);
    res.write(toS(todo));
    res.end();
 });
@@ -174,7 +195,6 @@ app.post('/deleteTodo',(req,res)=>{
   let userName = req.user.username;
   let date = req.body.date;
   let todoTitle=req.body.todoTitle;
-  console.log('in');
   myApp.deleteTodo(userName,date,todoTitle)
   let titles=myApp.getTodoTitlesOnDate(userName,date);
   res.write(toS(titles));

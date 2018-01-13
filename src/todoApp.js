@@ -77,6 +77,10 @@ TodoApp.prototype = {
   deleteTodo : function(username,date,todoTitle){
     this.getAccount(username).deleteTodo(date,todoTitle);
     return;
+  },
+  setTodoTitle: function(username,date,token,newTitle){
+    this.getAccount(username).setTodoTitle(date,token,newTitle);
+    return ;
   }
 }
 module.exports = TodoApp;
