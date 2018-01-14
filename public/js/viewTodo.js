@@ -35,12 +35,18 @@ const updateTaskList = function () {
   let todo = JSON.parse(this.responseText);
   let tasks = todo.tasks;
   let taskKeys = Object.keys(tasks);
+  let todoTitle=todo.title;
+  let todoDescription = todo.description;
+  console.log(todoTitle);
+  console.log(todoDescription);
   let generatedTaskCode = taskKeys.reduce(function(accumulate,taskTitle,index){
     let title= tasks[taskTitle].title;
     let srNo = index+1;
     return accumulate = accumulate + `<input type='checkbox' onclick='changeStatus(this.id)' id='${srNo}' size='100'>${title}</input><br />`;
   },``);
   document.getElementById("tasks").innerHTML = generatedTaskCode;
+  document.getElementById("todoTitleHeader").innerHTML = todoTitle;
+  document.getElementById("todoDescHeader").innerHTML = todoDescription;
   taskKeys.forEach(function(taskKey,index){
     let status= tasks[taskKey].completionStatus;
     document.getElementById(index+1).checked = status;

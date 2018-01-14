@@ -29,15 +29,25 @@ const editTodo = function(){
   },'');
   let todoTitleHtml = `<input type='text' id="newTodoTitle" value='${todoTitle}'></input>`+
   `<button id='editTodoTitle' onclick='editTitle()'>save</button></br>`;
-  let todoDescriptionHtml = `<input type='text' value='${todoDescription}></input>`;
+  let todoDescriptionHtml = `<textArea id="newTodoDesc" width="588px"value='${todoDescription}></textArea>`+
+  `<button id='editTodoDesc' onclick='editDesc()'>save</button></br>`;;
   let html = todoTitleHtml+todoDescription+todoTasksHtml;
   document.getElementById('editBlock').innerHTML = html;
+}
+
+const editTodoDesc = function() {
+  let todoTitle = document.getElementById("newTodoTitle").value;
+  let description = document.getElementById('todoDesc').value;
+  let date = document.getElementById('date').value;
+  let xmlReq =  new XMLHttpRequest();
+  xmlReq.open("POST",'/addDescription');
+  xmlReq.send(`todoTitle=${todoTitle}&date=${date}&todoDescription=${description}`);
 }
 
 const editTask = function(id){
   let taskTitle=document.getElementById(id).value;
   let date = document.getElementById('date').value;
-  let todoTitle = document.getElementById('todoTitle').value;
+  let todoTitle = document.getElementById('newTitle').value;
   let srNo =id;
   let xmlReq = new XMLHttpRequest();
   xmlReq.addEventListener('load',editTodo);
@@ -64,7 +74,7 @@ const getTodo = function () {
 }
 
 const addTask = function(){
-  let todoTitle = document.getElementById("todoTitle").value;
+  let todoTitle = document.getElementById('newTodoTitle').value;
   let taskTitle = document.getElementById("taskTitle").value;
   let token = document.getElementById("todoToken").innerText;
   let date = document.getElementById("date").value;

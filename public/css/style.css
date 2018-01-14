@@ -19,3 +19,38 @@ li{
 .editTodoButton{
   visibility: hidden;
 }
+
+#todoTitle{
+  margin-left: 32px;
+}
+
+#todoDesc{
+  width:588px;
+  visibility: hidden;
+}
+
+#addTodoDescription{
+  visibility: hidden;
+}
+
+#descLabel{
+  visibility: hidden;
+}
+
+#addTask{
+  visibility: hidden;
+}
+#taskTitle{
+  visibility: hidden;
+  margin: 90px;
+}
+.createTodo{
+  margin-top: 120px;
+  margin-left: 300px;
+}
+.DisplayTask{
+  margin-left: 300px;
+}
+.addTask{
+  margin-left: 300px;
+}

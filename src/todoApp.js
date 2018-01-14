@@ -1,6 +1,6 @@
 const Account = require('./account.js');
 const TodoApp =  function () {
-  this.accounts = { }
+  this.accounts = {}
 }
 TodoApp.prototype = {
   addAccount : function(userName,fullName,password){
@@ -78,9 +78,24 @@ TodoApp.prototype = {
     this.getAccount(username).deleteTodo(date,todoTitle);
     return;
   },
+  getTodoByToken:function(username,date,token){
+    let todos = this.getTodosOnDate(username,date);
+    let todoTitles = Object.keys(todos);
+    let title = todoTitles.find(function(todoTitle) {
+      return todos[todoTitle].todoToken == token;
+    })
+    return todos[title];
+  },
   setTodoTitle: function(username,date,token,newTitle){
-    this.getAccount(username).setTodoTitle(date,token,newTitle);
-    return ;
+    let oldTodo = this.getTodoByToken(username,date,token);
+    let oldTitle = oldTodo.getTitle();
+    let todo=this.getAccount(username).setTodoTitle(date,token,newTitle);
+    this.accounts[username].todos[date][newTitle] = todo;
+    this.deleteTodo(username,date,oldTitle);
+    return;
+  },
+  setTodoDescription:function(username,date,todoTitle,description) {
+    this.getTodo(username,date,todoTitle).setTodoDescription(description);
   }
 }
 module.exports = TodoApp;

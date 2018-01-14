@@ -3,9 +3,10 @@ const createTodo = function() {
   let todoTitle = document.getElementById("todoTitle").value;
   let token = document.getElementById("todoToken").innerText;
   let xmlReq =  new XMLHttpRequest();
-  xmlReq.open("POST",link)
+  xmlReq.open("POST",link);
   xmlReq.send(`todoTitle=${todoTitle}&token=${token}`);
   disableCreateButton();
+  enableOtherFields();
 }
 
 const disableCreateButton = function () {
@@ -13,13 +14,29 @@ const disableCreateButton = function () {
   document.getElementById("todoTitle").readOnly = true;
 }
 
-// const enableCreateButton = function(){
-//   document.getElementById("todoTitle").readOnly = false;
-//   document.getElementById("createTodoButton").style.visibility = "visible";
-//   document.getElementById("editTodoButton").style.visibility = "hidden";
-//   link = '/editTodoTitle';
-// }
+const enableOtherFields = function () {
+  document.getElementById("todoDesc").style.visibility = "visible";
+  document.getElementById("descLabel").style.visibility = "visible";
+  document.getElementById("addTodoDescription").style.visibility = "visible";
+  document.getElementById("addTask").style.visibility = "visible";
+  document.getElementById("taskTitle").style.visibility = "visible";
+}
 
+const addTodoDescription = function() {
+  let todoTitle = document.getElementById("todoTitle").value;
+  let description = document.getElementById('todoDesc').value;
+  let token = document.getElementById("todoToken").innerText;
+  let date = getCurrentDate();
+  let xmlReq =  new XMLHttpRequest();
+  xmlReq.open("POST",'/addDescription');
+  xmlReq.send(`todoTitle=${todoTitle}&date=${date}&todoDescription=${description}`);
+  disableAddDescButton();
+}
+
+const disableAddDescButton=function () {
+  document.getElementById("todoDesc").readOnly = true;
+  document.getElementById("addTodoDescription").style.visibility = "hidden";
+}
 const displayToken = function(){
   document.getElementById('todoToken').innerText = this.responseText;
 }
@@ -59,6 +76,7 @@ const changeStatus = function(id){
   xmlReq.open("POST",'/changeStatus');
   xmlReq.send(`srNo=${srNo}&date=${date}&todoTitle=${todoTitle}&status=${status}`);
 }
+
 const updateTaskList = function () {
   let todo = JSON.parse(this.responseText);
   let tasks = todo.tasks;

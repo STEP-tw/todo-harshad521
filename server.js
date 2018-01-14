@@ -209,13 +209,23 @@ app.get('/getToken',(req,res)=>{
    res.end();
 });
 
+app.post('/addDescription',(req,res)=>{
+  let userName = req.user.username;
+  let todoTitle = req.body.todoTitle;
+  let todoDescription = req.body.todoDescription;
+  let date = req.body.date
+  myApp.setTodoDescription(userName,date,todoTitle,todoDescription);
+  let todo = myApp.getTodo(userName,date,todoTitle);
+  console.log(todo);
+  res.end();
+});
+
+
 app.get('/logout',(req,res)=>{
   res.setHeader('Set-Cookie',[`loginFailed=false,Expires=Thu Jan 01 1970 05:30:00 GMT`,`sessionid=0,Expires=Thu Jan 01 1970 05:30:00 GMT`]);
   delete req.user.sessionid;
   res.redirect('/login');
 });
-
-
 
 const PORT = 5000;
 

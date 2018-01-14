@@ -5,14 +5,20 @@
     <link rel="stylesheet" href="/css/style.css">
     <script type="text/javascript" src="./js/createTodo.js"></script>
     <title>Create ToDo</title>
-    <label class="todoToken"id="todoToken" ></label>
+    <label class="todoToken" id="todoToken" ></label>
   </head>
   <body>
-    Title : <input id="todoTitle" name ="todoTitle" size="100">
-    <button id="createTodoButton" onclick="createTodo()">Create Todo</button>
-    <div id="tasks">
+    <div class="createTodo">
+      Title :<input id="todoTitle" name ="todoTitle" size="100"></input>
+      <button id="createTodoButton" onclick="createTodo()">Create Todo</button><br>
+      <label id="descLabel">Description : </label><textArea id="todoDesc" name ="todoDesc" width="100"></textarea>
+      <button id="addTodoDescription" onclick="addTodoDescription()">Add Description</button>
     </div>
-    <input id="taskTitle" name ="taskTitle" size="100">
-    <button id="addTask" onclick="addTask()">Add Task</button>
+    <div class="DisplayTask" id="tasks">
+    </div>
+    <div class="addTask">
+      <input id="taskTitle" name ="taskTitle" size="100">
+      <button id="addTask" onclick="addTask()">Add Task</button>
+    </div>
   </body>
 </html>

@@ -9,7 +9,7 @@ const accumulate = (o,kv)=> {
 const parseBody = text=> text && text.split('&').map(toKeyValue).reduce(accumulate,{}) || {};
 
 let redirect = function(path){
-  console.log(`redirecting to ${path}`);
+  //console.log(`redirecting to ${path}`);
   this.statusCode = 302;
   this.setHeader('location',path);
   this.end();
@@ -65,7 +65,6 @@ const main = function(req,res){
   let content="";
   req.on('data',data=>content+=data.toString())
   req.on('end',()=>{
-    console.log(parseBody(content));
     req.body = parseBody(content);
     content="";
     this._preprocess.forEach(middleware=>{
