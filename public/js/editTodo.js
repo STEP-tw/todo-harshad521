@@ -75,8 +75,8 @@ const getTodo = function () {
 }
 //
 const addTask = function(){
-  let todoTitle = document.getElementById('newTodoTitle').value;
-  let taskTitle = document.getElementById("taskTitle").value;
+  let todoTitle = document.getElementById('newTitle').value;
+  let taskTitle = document.getElementById("taskTitleInEdit").value;
   let token = document.getElementById("todoToken").innerText;
   let date = document.getElementById("date").value;
   let xmlReq =  new XMLHttpRequest();

@@ -1,4 +1,3 @@
-const Todo = require('./todo.js');
 const getCurrentDate = function () {
   let date = new Date();
   day = date.getDate();
@@ -7,10 +6,10 @@ const getCurrentDate = function () {
   return `${year}-${month}-${day}`
 }
 
-const getIndexOfElement = function (element,list) {
-  return list.findIndex(function functionName() {
-  });
-}
+////////////////////////////////////////////////////////////////////////////////
+
+
+const Todo = require('./todo.js');
 
 const Account = function(userName,name,password){
   this.username=userName;
@@ -18,18 +17,19 @@ const Account = function(userName,name,password){
   this.password = password;
   this.todos = {};
   //this.todos = [];
-  this.token = 1;
+  this.token = 0;
 }
 
 Account.prototype = {
-  addTodo : function (todoTitle) {
-    let date = getCurrentDate();
-    if(!Object.keys(this.todos).includes(date)){
-      this.todos[date]={};
-      this.resetToken();
-    }
-    let todo = new Todo(todoTitle,date,this.nextToken());
-    this.getTodosOnDate(date)[todo.getTitle()] = todo;
+  addTodo : function (todoTitle,date=getCurrentDate()) {
+    // if(!Object.keys(this.todos).includes(date)){
+    //   this.todos[date]={};
+    //   this.resetToken();
+    // }
+    let token = this.nextToken();
+    let todo = new Todo(todoTitle,date,token);
+    //this.getTodosOnDate(date)[todo.getTitle()] = todo;
+    this.todos[token]=todo;
     //this.todo.push(date);
     return;
   },
@@ -38,40 +38,40 @@ Account.prototype = {
     return this.token;
   },
   resetToken : function(){
-    this.token = 1;
+    this.token = 0;
   },
   getUsername : function () {
     return this.username;
   },
-  getTodo: function (date,todoTitle) {
-    return this.getTodosOnDate(date)[todoTitle];
+  getTodo: function (todoToken) {
+    return this.todos[todoToken];
+    //return this.getTodosOnDate(date)[todoTitle];
     /*return this.getTodosOnDate(date).find(function(todo){
     return todo.getTitle()==todoTitle;
   })*/
   },
-  deleteTodo : function(date,todoTitle){
-    delete this.todos[date][todoTitle];
-    //
+  deleteTodo : function(todoToken){
+    delete this.todos[todoToken];
     return;
   },
-  insertTaskInTodo: function(date,todoTitle,task){
-    this.getTodo(date,todoTitle).addTask(task);
+  insertTaskInTodo: function(todoToken,task){
+    this.getTodo(todoToken).addTask(task);
     return;
   },
-  editTaskInTodo : function(date,todoTitle,srNo,newTaskTitle){
-    this.getTodo(date,todoTitle).setTaskTitle(srNo,newTaskTitle);
+  editTaskInTodo : function(todoToken,srNo,newTaskTitle){
+    this.getTodo(todoToken).setTaskTitle(srNo,newTaskTitle);
     return;
   },
-  deleteTaskInTodo : function(date,todoTitle,srNo){
-    this.getTodo(date,todoTitle).deleteTask(srNo);
+  deleteTaskInTodo : function(todoToken,srNo){
+    this.getTodo(todoToken).deleteTask(srNo);
     return;
   },
-  setTaskStatus : function(date,todoTitle,srNo,status){
-    this.getTodo(date,todoTitle).setStatus(srNo,status);
+  setTaskStatus : function(todoToken,srNo,status){
+    this.getTodo(todoToken).setTaskStatus(srNo,status);
     return;
   },
-  getTaskStatus : function(date,todoTitle,srNo){
-    return this.getTodo(date,todoTitle).getStatus(srNo,status);
+  getTaskStatus : function(todoToken,srNo){
+    return this.getTodo(todoToken).getTaskStatus(srNo);
   },
   setSessionId : function (sessionId){
     this["sessionId"] = sessionId;
@@ -80,33 +80,38 @@ Account.prototype = {
     return this.sessionId;
   },
   deleteSessionId : function () {
-    delete this.sessionid;
+    delete this.sessionId;
   },
   getTodosOnDate:function(date) {
-    return this.todos[date];
-    /*return this.todo.filter(function(todo){
-    return todo.date==date;
-  })*/
+    let todoKeys=Object.keys(this.todos)
+    let t = todoKeys.reduce((accumulator,todoKey)=>{
+      if(this.getTodo(todoKey).date==date){
+        accumulator.push(this.getTodo(todoKey))
+      }
+      return accumulator;
+    },[])
+    return t;
   },
   getTodoTitlesOnDate:function(date) {
     let todosOnGivenDate = this.getTodosOnDate(date);
-    return Object.keys(todosOnGivenDate);
-  },
-  setTodoTitle:function(date,token,newTitle) {
-    let todoTitleList = this.getTodoTitlesOnDate(date)
-    let AccountReference = this;
-    let todoTitle = todoTitleList.find(function(title){
-      return AccountReference.getTodo(date,title).getToken() == token;
+    return todosOnGivenDate.map(function(todo){
+      return todo.getTitle();
     })
-    this.getTodo(date,todoTitle).setTitle(newTitle);
-    todo = this.getTodo(date,todoTitle);
+    //return Object.keys(todosOnGivenDate);
+  },
+  getTodoTitle:function (todoToken) {
+    return this.getTodo(todoToken).getTitle();
+  },
+  setTodoTitle:function(todoToken,newTitle) {
+    this.getTodo(todoToken).setTitle(newTitle);
+    todo = this.getTodo(todoToken);
     return todo;
   },
   getToken: function () {
     return this.token;
   },
-  setTodoDescription : function(date,todoTitle,description){
-    this.getTodo(date,todoTitle).setTodoDescription(description);
+  setTodoDescription : function(todoToken,description){
+    this.getTodo(todoToken).setTodoDescription(description);
   }
 };
 

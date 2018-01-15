@@ -93,7 +93,7 @@ app.get('/login',(req,res)=>{
   res.setHeader('Content-type','text/html');
   if(cookieParse(req.cookies)) res.write('<p>logIn Failed</p>');
   res.write(` <center>
-    <h4><a href="index.html"> << </a>Login</h4>
+    <h4>Login</h4>
     <form method="POST">
       Name : <input  name="userName"> <br> <br>
       Password : <input type="password" name="password"> <br> <br>
@@ -159,7 +159,6 @@ app.post('/setTodoTitle',(req,res)=>{
    let date = req.body.date;
    let todoToken = req.body.todoToken;
    myApp.setTodoTitle(userName,date,todoToken,newTodoTitle);
-   console.log(toS(myApp));
    let todo = myApp.getTodo(userName,date,newTodoTitle)
    res.write(toS(todo));
    res.end();
@@ -214,10 +213,9 @@ app.post('/addDescription',(req,res)=>{
   let todoTitle = req.body.todoTitle;
   let todoDescription = req.body.todoDescription;
   let date = req.body.date
-  console.log("date in server",date);
   myApp.setTodoDescription(userName,date,todoTitle,todoDescription);
-  let todo = myApp.getTodo(userName,date,todoTitle);
-  console.log(todo);
+  // let todo = myApp.getTodo(userName,date,todoTitle);
+  // console.log(todo);
   res.end();
 });
 
