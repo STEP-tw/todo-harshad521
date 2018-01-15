@@ -4,27 +4,23 @@ const Todo = function(title,date,token){
   this.title= title;
   this.description= "";
   this.tasks= {};
-  this.srNo= 1;
+  this.srNo= 0;
   this.date= date;
 };
 
 Todo.prototype={
-  incrementSrNo:function(){
-    this.srNo++;
-    return;
-  },
   addTask : function(title){
     let task = new Task(title);
-    this.tasks[this.getSrNo()] = task;
-    this.incrementSrNo();
+    this.tasks[this.nextSrNo()] = task;
     return;
+  },
+  nextSrNo:function () {
+    this.srNo++;
+    return this.srNo;
   },
   deleteTask: function(srNo){
     delete this.tasks[srNo];
     return;
-  },
-  getSrNo:function(){
-    return this.srNo;
   },
   getTotalTasksCount : function(){
     return Object.keys(this.tasks).length;;
@@ -47,10 +43,6 @@ Todo.prototype={
   },
   setTaskTitle : function (srNo,title) {
     this.getTask(srNo).setTitle(title);
-    return;
-  },
-  editTodoTitle : function(title) {
-    this.title = title;
     return;
   },
   setTodoDescription : function(description){

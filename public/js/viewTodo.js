@@ -37,8 +37,6 @@ const updateTaskList = function () {
   let taskKeys = Object.keys(tasks);
   let todoTitle=todo.title;
   let todoDescription = todo.description;
-  console.log(todoTitle);
-  console.log(todoDescription);
   let generatedTaskCode = taskKeys.reduce(function(accumulate,taskTitle,index){
     let title= tasks[taskTitle].title;
     let srNo = index+1;
