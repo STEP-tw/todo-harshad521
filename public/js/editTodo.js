@@ -27,24 +27,24 @@ const editTodo = function(){
     `<button id='editTaskTitle' onclick='editTask(${todokey})'>save</button></br>`
     return accumulate+=htmlCode;
   },'');
-  let todoTitleHtml = `<input type='text' id="newTodoTitle" value='${todoTitle}'></input>`+
-  `<button id='editTodoTitle' onclick='editTitle()'>save</button></br>`;
-  let todoDescriptionHtml = `<textArea id="newTodoDesc" width="588px"value='${todoDescription}></textArea>`+
-  `<button id='editTodoDesc' onclick='editDesc()'>save</button></br>`;;
-  let html = todoTitleHtml+todoDescription+todoTasksHtml;
+  let todoTitleHtml = `<input type='text' id="newTitle" value='${todoTitle}'></input>`+
+  `<button id='editTodoTitle' onclick='editTitle()'>save</button></br>`
+  let todoDescriptionHtml = `<textArea id="newTodoDesc" width="588px" >${todoDescription}</textArea>`+
+  `<button id='editTodoDesc' onclick='editTodoDesc()'>save</button></br>`;;
+  let html = todoTitleHtml+todoDescriptionHtml+todoTasksHtml;
   document.getElementById('editBlock').innerHTML = html;
 }
 
 const editTodoDesc = function() {
-  let todoTitle = document.getElementById("newTodoTitle").value;
-  let description = document.getElementById('todoDesc').value;
+  let todoTitle = document.getElementById("newTitle").value;
+  let description = document.getElementById('newTodoDesc').value;
   let date = document.getElementById('date').value;
   let xmlReq =  new XMLHttpRequest();
   xmlReq.open("POST",'/addDescription');
-  xmlReq.send(`todoTitle=${todoTitle}&date=${date}&todoDescription=${description}`);
+  xmlReq.send(`todoTitle=${todoTitle}&date=${getCurrentDate(date)}&todoDescription=${description}`);
 }
-
-const editTask = function(id){
+//
+ const editTask = function(id){
   let taskTitle=document.getElementById(id).value;
   let date = document.getElementById('date').value;
   let todoTitle = document.getElementById('newTitle').value;
@@ -54,16 +54,17 @@ const editTask = function(id){
   xmlReq.open('POST','/setTaskTitle');
   xmlReq.send(`taskTitle=${taskTitle}&date=${getCurrentDate(date)}&todoTitle=${todoTitle}&srNo=${srNo}`);
 }
-
+//
 const editTitle = function() {
   let date = document.getElementById('date').value;
-  let todoTitle = document.getElementById('newTodoTitle').value;
+  let todoTitle = document.getElementById('newTitle').value;
   let todoToken = document.getElementById('todoToken').value;
   let xmlReq = new XMLHttpRequest();
   xmlReq.addEventListener('load',editTodo);
   xmlReq.open('POST','/setTodoTitle');
   xmlReq.send(`date=${getCurrentDate(date)}&todoTitle=${todoTitle}&todoToken=${todoToken}`);
-}
+ }
+
 const getTodo = function () {
   let date = document.getElementById('date').value;
   let todoTitle = document.getElementById('todoTitle').value;
@@ -72,7 +73,7 @@ const getTodo = function () {
   xmlReq.open('POST','/getTodo');
   xmlReq.send(`date=${getCurrentDate(date)}&todoTitle=${todoTitle}`)
 }
-
+//
 const addTask = function(){
   let todoTitle = document.getElementById('newTodoTitle').value;
   let taskTitle = document.getElementById("taskTitle").value;
@@ -83,8 +84,9 @@ const addTask = function(){
   xmlReq.open("POST",'/addTask');
   xmlReq.send(`todoTitle=${todoTitle}&date=${getCurrentDate(date)}&taskTitle=${taskTitle}`);
 }
-
+//
 const updateTodoTitleList = function() {
+  console.log(this.responseText);
   let todoTitleList = JSON.parse(this.responseText);
   let titles = todoTitleList.reduce(function(accumulate,todoTitle,index){
     return accumulate+=`<option value="${todoTitle}">`;

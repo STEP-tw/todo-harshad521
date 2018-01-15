@@ -45,6 +45,7 @@ Account.prototype = {
     return this.username;
   },
   getTodo: function (date,todoTitle) {
+    console.log("date n title = >",date,todoTitle);
     return this.getTodosOnDate(date)[todoTitle];
     /*return this.getTodosOnDate(date).find(function(todo){
     return todo.getTitle()==todoTitle;
@@ -84,6 +85,8 @@ Account.prototype = {
     delete this.sessionid;
   },
   getTodosOnDate:function(date) {
+    console.log(date);
+    console.log(this.todos[date]);
     return this.todos[date];
     /*return this.todo.filter(function(todo){
     return todo.date==date;
@@ -99,9 +102,10 @@ Account.prototype = {
     let todoTitle = todoTitleList.find(function(title){
       return AccountReference.getTodo(date,title).getToken() == token;
     })
-    let todo = this.getTodo(date,todoTitle);
-    todo.setTitle(newTitle);
-    return todo;
+    // let todo = this.getTodo(date,todoTitle);
+    // todo.setTitle(newTitle);
+    this.todos[date][todoTitle].setTitle(newTitle);
+    return this.getTodo(date,todoTitle);
   },
   getToken: function () {
     return this.token;
