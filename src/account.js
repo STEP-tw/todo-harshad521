@@ -22,15 +22,9 @@ const Account = function(userName,name,password){
 
 Account.prototype = {
   addTodo : function (todoTitle,date=getCurrentDate()) {
-    // if(!Object.keys(this.todos).includes(date)){
-    //   this.todos[date]={};
-    //   this.resetToken();
-    // }
     let token = this.nextToken();
     let todo = new Todo(todoTitle,date,token);
-    //this.getTodosOnDate(date)[todo.getTitle()] = todo;
     this.todos[token]=todo;
-    //this.todo.push(date);
     return;
   },
   nextToken :function(){
@@ -45,10 +39,6 @@ Account.prototype = {
   },
   getTodo: function (todoToken) {
     return this.todos[todoToken];
-    //return this.getTodosOnDate(date)[todoTitle];
-    /*return this.getTodosOnDate(date).find(function(todo){
-    return todo.getTitle()==todoTitle;
-  })*/
   },
   deleteTodo : function(todoToken){
     delete this.todos[todoToken];
@@ -97,7 +87,6 @@ Account.prototype = {
     return todosOnGivenDate.map(function(todo){
       return todo.getTitle();
     })
-    //return Object.keys(todosOnGivenDate);
   },
   getTodoTitle:function (todoToken) {
     return this.getTodo(todoToken).getTitle();
@@ -112,6 +101,12 @@ Account.prototype = {
   },
   setTodoDescription : function(todoToken,description){
     this.getTodo(todoToken).setTodoDescription(description);
+  },
+  getTaskInTodo:function(todoToken,srNo) {
+    return this.getTodo(todoToken).getTask(srNo);
+  },
+  getTodoDescription : function(todoToken) {
+    return this.getTodo(todoToken).getDescription();
   }
 };
 

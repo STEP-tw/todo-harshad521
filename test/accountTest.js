@@ -210,5 +210,23 @@ describe("***Account*** =>",function () {
         chaiAssert.equal(account.getTodo(2).description,"Just for test");
       });
     });
+    describe("getTaskInTodo()",function(){
+      it("Should get task of sr no in todo of given Token",function(){
+        account.addTodo("Todo1",'2018-01-12');
+        account.insertTaskInTodo(1,"task1");
+        account.insertTaskInTodo(1,"task2");
+        account.addTodo("Todo4",'2018-01-12');
+        chaiAssert.deepInclude(account.getTaskInTodo(1,2),{title:"task2",completionStatus:false});
+      });
+    });
+    describe("getToken()",function(){
+      it("Should get current available Token",function(){
+        account.addTodo("Todo1",'2018-01-12');
+        account.insertTaskInTodo(1,"task1");
+        account.insertTaskInTodo(1,"task2");
+        account.addTodo("Todo4",'2018-01-12');
+        chaiAssert.deepInclude(account.getTaskInTodo(1,2),{title:"task2",completionStatus:false});
+      });
+    });
   });
 });

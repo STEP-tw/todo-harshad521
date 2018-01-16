@@ -71,6 +71,9 @@ Todo.prototype={
   },
   getDate: function() {
     return this.date;
+  },
+  getDescription: function() {
+    return this.description;
   }
 }
 

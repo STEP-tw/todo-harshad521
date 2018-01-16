@@ -6,55 +6,21 @@ TodoApp.prototype = {
   addAccount : function(userName,fullName,password){
     this.accounts[userName] =  new Account(userName,fullName,password);
   },
-  addTodo : function (userName,todoTitle) {
-    this.getAccount(userName).addTodo(todoTitle);
-  },
-  areUserDetailsValid:function (userName,password) {
-    let isUsernameValid=Object.keys(this.accounts).includes(userName);
-    return isUsernameValid && this.doesPasswordMatch(userName,password);
-  },
-  doesPasswordMatch:function (userName,password) {
-    return this.getAccountPassword(userName) == password;
-  },
-  deleteTodo: function(userName,date,todoTitle){
-    delete this.getAccount(userName).getTodo(date,todoTitle);
-  },
   getAccount : function (userName) {
     return this.accounts[userName];
   },
   getAccountPassword : function(userName){
     return this.getAccount(userName).password;
   },
-  getTodo : function(userName,date,todoTitle){
-    return this.getAccount(userName).getTodo(date,todoTitle);
+  doesPasswordMatch:function (userName,password) {
+    return this.getAccountPassword(userName) == password;
   },
-  insertTaskInTodo : function (userName,date,todoTitle,taskTitle){
-    this.getAccount(userName).insertTaskInTodo(date,todoTitle,taskTitle);
-  },
-  deleteTaskInTodo : function (userName,date,todoTitle,srNo) {
-    this.getAccount(userName).deleteTaskInTodo(date,todoTitle,srNo)
-  },
-  getTask : function(userName,date,todoTitle,srNo){
-    return this.getTodo(userName,date,todoTitle).getTask(srNo);
-  },
-  setTaskTitle : function(userName,date,todoTitle,srNo,newTitle){
-    return this.getTodo(userName,date,todoTitle).setTaskTitle(srNo,newTitle);
-  },
-  getTaskStatus : function(userName,date,todoTitle,srNo){
-    return this.getTodo(userName,date,todoTitle).getStatus(srNo);
-  },
-  setTaskStatus : function(userName,date,todoTitle,srNo,status){
-    return this.getTodo(userName,date,todoTitle).setTaskStatus(srNo,status);
+  areUserDetailsValid:function (userName,password) {
+    let isUsernameValid=Object.keys(this.accounts).includes(userName);
+    return isUsernameValid && this.doesPasswordMatch(userName,password);
   },
   setSessionId : function (userName,sessionid) {
     this.getAccount(userName).setSessionId(sessionid);
-    return ;
-  },
-  getSessionId : function (userName) {
-    return this.getAccount(userName).getSessionId();
-  },
-  deleteSessionId : function (userName) {
-    this.getAccount(userName).deleteSessionId();
     return ;
   },
   getUserBySessionId : function(sessionid){
@@ -64,6 +30,37 @@ TodoApp.prototype = {
       return TodoAppReference.getSessionId(user) == sessionid;
     });
     return this.getAccount(username)||false;
+  },
+  getSessionId : function (userName) {
+    return this.getAccount(userName).getSessionId();
+  },
+  deleteSessionId : function (userName) {
+    this.getAccount(userName).deleteSessionId();
+    return ;
+  },
+  addTodo : function (userName,todoTitle,date) {
+    this.getAccount(userName).addTodo(todoTitle,date);
+  },
+  getTodo : function(userName,todoToken){
+    return this.getAccount(userName).getTodo(todoToken);
+  },
+  insertTaskInTodo : function (userName,todoToken,taskTitle){
+    this.getAccount(userName).insertTaskInTodo(todoToken,taskTitle);
+  },
+  deleteTaskInTodo : function (userName,todoToken,srNo) {
+    this.getAccount(userName).deleteTaskInTodo(todoToken,srNo)
+  },
+  getTask : function(userName,todoToken,srNo){
+    return this.getAccount(userName).getTaskInTodo(todoToken,srNo);
+  },
+  setTaskTitle : function(userName,todoToken,srNo,newTitle){
+    return this.getAccount(userName).editTaskInTodo(todoToken,srNo,newTitle);
+  },
+  getTaskStatus : function(userName,todoToken,srNo){
+    return this.getAccount(userName).getTaskStatus(todoToken,srNo);
+  },
+  setTaskStatus : function(userName,todoToken,srNo,status){
+    return this.getAccount(userName).setTaskStatus(todoToken,srNo,status);
   },
   getTodoTitlesOnDate : function (username,date) {
     return this.getAccount(username).getTodoTitlesOnDate(date);
@@ -78,24 +75,14 @@ TodoApp.prototype = {
     this.getAccount(username).deleteTodo(date,todoTitle);
     return;
   },
-  getTodoByToken:function(username,date,token){
-    let todos = this.getTodosOnDate(username,date);
-    let todoTitles = Object.keys(todos);
-    let title = todoTitles.find(function(todoTitle) {
-      return todos[todoTitle].todoToken == token;
-    })
-    return todos[title];
+  setTodoTitle: function(username,todoToken,newTitle){
+    return this.getAccount(username).setTodoTitle(todoToken,newTitle);
   },
-  setTodoTitle: function(username,date,token,newTitle){
-    let oldTodo = this.getTodoByToken(username,date,token);
-    let oldTitle = oldTodo.getTitle();
-    let todo=this.getAccount(username).setTodoTitle(date,token,newTitle);
-    this.accounts[username].todos[date][newTitle] = todo;
-    this.deleteTodo(username,date,oldTitle);
-    return;
+  setTodoDescription:function(username,todoToken,description) {
+    this.getAccount(username).setTodoDescription(todoToken,description);
   },
-  setTodoDescription:function(username,date,todoTitle,description) {
-    this.getTodo(username,date,todoTitle).setTodoDescription(description);
+  getTodoDescription:function(username,todoToken) {
+    return this.getAccount(username).getTodoDescription(todoToken);
   }
 }
 module.exports = TodoApp;
