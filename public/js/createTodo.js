@@ -8,7 +8,6 @@ const getCurrentDate = function () {
 
 const createTodo = function() {
   let todoTitle = document.getElementById("todoTitle").value;
-  // let token = document.getElementById("todoToken").value;
   let xmlReq =  new XMLHttpRequest();
   xmlReq.open("POST",'/createTodo');
   xmlReq.send(`todoTitle=${todoTitle}&date=${getCurrentDate()}`);
@@ -30,10 +29,8 @@ const enableOtherFields = function () {
 }
 
 const addTodoDescription = function() {
-  // let todoTitle = document.getElementById("todoTitle").value;
   let description = document.getElementById('todoDesc').value;
   let token = document.getElementById("todoToken").value;
-  // let date = getCurrentDate();
   let xmlReq =  new XMLHttpRequest();
   xmlReq.open("POST",'/addDescription');
   xmlReq.send(`todoToken=${token}&todoDescription=${description}`);
@@ -54,14 +51,6 @@ const getToken = function(){
   xmlReq.open("get",'/getToken')
   xmlReq.send();
 }
-
-// const getCurrentDate = function () {
-//   let date = new Date();
-//   day = date.getDate();
-//   month = date.getMonth()+1;
-//   year = date.getFullYear();
-//   return `${year}-${month}-${day}`
-// }
 
 const addTask = function(){
   let taskTitle = document.getElementById("taskTitle").value;

@@ -95,10 +95,3 @@ const updateTodoTitleList = function() {
   },"")
   document.getElementById('todoTitleList').innerHTML = titles;
 }
-// const updateTodoTitleList = function() {
-//   let todoTitleList = JSON.parse(this.responseText);
-//   let titles = todoTitleList.reduce(function(accumulate,todoTitle,index){
-//     return accumulate+=`<option value="${todoTitle}">`;
-//   },'')
-//   document.getElementById('todoTitles').innerHTML = titles;
-// }

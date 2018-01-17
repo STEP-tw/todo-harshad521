@@ -166,7 +166,7 @@ app.post('/changeStatus',(req,res)=>{
    let userName = req.user.username;
    let todoToken = req.body.todoToken;
    let srNo = req.body.srNo;
-   let status = req.body.status
+   let status = req.body.status=="true";
    myApp.setTaskStatus(userName,todoToken,srNo,status)
    res.end();
 });
@@ -218,7 +218,6 @@ app.post('/addDescription',(req,res)=>{
   let userName = req.user.username;
   let todoToken = req.body.todoToken;
   let todoDescription = req.body.todoDescription;
-  console.log(todoToken);
   myApp.setTodoDescription(userName,todoToken,todoDescription);
   // let todo = myApp.getTodo(userName,date,todoTitle);
   // console.log(todo);

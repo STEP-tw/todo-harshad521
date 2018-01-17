@@ -16,7 +16,6 @@ const Account = function(userName,name,password){
   this.name = name;
   this.password = password;
   this.todos = {};
-  //this.todos = [];
   this.token = 0;
 }
 
