@@ -192,8 +192,10 @@ describe("***TodoApp*** =>",function () {
         myApp.addTodo('ronaldo','Todo3','2018-1-16');
         myApp.addTodo('ronaldo','Todo4','2018-1-12');
         let todoTitles=myApp.getTodoTitlesOnDate('ronaldo','2018-1-12');
-        let expected=['Todo1','Todo2','Todo4']
-        chaiAssert.deepEqual(todoTitles,expected)
+        let expected=[{1:'Todo1'},{2:'Todo2'},{4:'Todo4'}]
+        chaiAssert.deepEqual(todoTitles[0],expected[0])
+        chaiAssert.deepEqual(todoTitles[1],expected[1])
+        chaiAssert.deepEqual(todoTitles[2],expected[2])
       });
     });
     describe("getTodosOnDate()",function(){

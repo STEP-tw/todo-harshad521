@@ -108,7 +108,7 @@ app.post('/login',(req,res)=>{
    let password =  req.body.password
    let user =  myApp.areUserDetailsValid(userName,password) && myApp.getAccount(userName);
   if(!user) {
-    res.setHeader('Set-Cookie',`loginFailed=true; Max-Age = 5`);
+    res.setHeader('Set-Cookie','loginFailed=true; Max-Age = 5');
     res.redirect('/login');
     return;
   }
@@ -126,51 +126,48 @@ app.get('/userName',(req,res)=>{
 app.post('/createTodo',(req,res)=>{
    let userName = req.user.username;
    let todoTitle = req.body.todoTitle;
-   myApp.addTodo(userName,todoTitle);
+   let date = req.body.date
+   myApp.addTodo(userName,todoTitle,date);
    res.end();
 });
 
 app.post('/addTask',(req,res)=>{
    let userName = req.user.username;
-   let todoTitle = req.body.todoTitle;
+   let todoToken = req.body.todoToken;
    let taskTitle = req.body.taskTitle;
-   let date = req.body.date
-   myApp.insertTaskInTodo(userName,date,todoTitle,taskTitle);
-   let todo = myApp.getTodo(userName,date,todoTitle);
+   myApp.insertTaskInTodo(userName,todoToken,taskTitle);
+   let todo = myApp.getTodo(userName,todoToken);
    res.write(toS(todo));
    res.end();
 });
 
 app.post('/setTaskTitle',(req,res)=>{
    let userName = req.user.username;
-   let todoTitle = req.body.todoTitle;
-   let newTaskTitle = req.body.taskTitle;
-   let date = req.body.date;
+   let todoToken = req.body.todoToken;
    let srNo = req.body.srNo;
-   myApp.setTaskTitle(userName,date,todoTitle,srNo,newTaskTitle);
-   let todo = myApp.getTodo(userName,date,todoTitle);
+   let newTaskTitle = req.body.taskTitle;
+   myApp.setTaskTitle(userName,todoToken,srNo,newTaskTitle);
+   let todo = myApp.getTodo(userName,todoToken);
    res.write(toS(todo));
    res.end();
 });
 
 app.post('/setTodoTitle',(req,res)=>{
    let userName = req.user.username;
-   let newTodoTitle = req.body.todoTitle;
-   let date = req.body.date;
    let todoToken = req.body.todoToken;
-   myApp.setTodoTitle(userName,date,todoToken,newTodoTitle);
-   let todo = myApp.getTodo(userName,date,newTodoTitle)
+   let newTodoTitle = req.body.todoTitle;
+   myApp.setTodoTitle(userName,todoToken,newTodoTitle);
+   let todo = myApp.getTodo(userName,todoToken)
    res.write(toS(todo));
    res.end();
 });
 
 app.post('/changeStatus',(req,res)=>{
    let userName = req.user.username;
-   let todoTitle = req.body.todoTitle;
-   let date = req.body.date;
+   let todoToken = req.body.todoToken;
    let srNo = req.body.srNo;
    let status = req.body.status
-   myApp.setTaskStatus(userName,date,todoTitle,srNo,status)
+   myApp.setTaskStatus(userName,todoToken,srNo,status)
    res.end();
 });
 
@@ -183,18 +180,16 @@ app.post('/getTodoTitlesOnDate',(req,res)=>{
 });
 app.post('/getTodo',(req,res)=>{
    let userName = req.user.username;
-   let date = req.body.date;
-   let todoTitle=req.body.todoTitle;
-   let todo = myApp.getTodo(userName,date,todoTitle)
+   let todoToken=req.body.todoToken;
+   let todo = myApp.getTodo(userName,todoToken)
    res.write(toS(todo));
    res.end();
 });
 
 app.post('/deleteTodo',(req,res)=>{
   let userName = req.user.username;
-  let date = req.body.date;
-  let todoTitle=req.body.todoTitle;
-  myApp.deleteTodo(userName,date,todoTitle)
+  let todoToken=req.body.todoToken;
+  myApp.deleteTodo(userName,todoToken)
   let titles=myApp.getTodoTitlesOnDate(userName,date);
   res.write(toS(titles));
   res.end();
@@ -210,10 +205,10 @@ app.get('/getToken',(req,res)=>{
 
 app.post('/addDescription',(req,res)=>{
   let userName = req.user.username;
-  let todoTitle = req.body.todoTitle;
+  let todoToken = req.body.todoToken;
   let todoDescription = req.body.todoDescription;
-  let date = req.body.date
-  myApp.setTodoDescription(userName,date,todoTitle,todoDescription);
+  console.log(todoToken);
+  myApp.setTodoDescription(userName,todoToken,todoDescription);
   // let todo = myApp.getTodo(userName,date,todoTitle);
   // console.log(todo);
   res.end();

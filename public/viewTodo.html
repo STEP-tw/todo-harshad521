@@ -5,16 +5,21 @@
     <link rel="stylesheet" href="/css/style.css">
     <script type="text/javascript" src="./js/viewTodo.js"></script>
     <title>View ToDo</title>
+    <label class="todoToken" id="todoToken" ></label>
   </head>
   <body>
     Date:<input type='date' id='date' oninput="getTodoTitlesOnDate()"/>
     Todo Title : <input list='todoTitles' id='todoTitle' oninput="getTodo()" />
-    <datalist id="todoTitles"><option value="1"></option>
-    <option value="2"></option></datalist>
     <h3 id="todoTitleHeader"></h3>
     <h6 id="todoDescHeader"></h6>
+    <div >
+      <p>todotitles</p>
+      <ol id="todoTitleList">
+      </ol>
+    </div>
     <div id="tasks">
 
     </div>
+    <button id='delete' onclick='deleteTodo()'>Delete Todo</button>
   </body>
 </html>

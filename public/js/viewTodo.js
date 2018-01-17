@@ -6,6 +6,10 @@ const getTodoTitlesOnDate =function () {
   xmlReq.send(`date=${getCurrentDate(date)}`);
 }
 
+const deleteTodo=function(){
+  alert(document.getElementById('todoToken').value);
+}
+
 const getCurrentDate = function (date) {
   let newDate = new Date(date);
   day = newDate.getDate();
@@ -14,26 +18,37 @@ const getCurrentDate = function (date) {
   return `${year}-${month}-${day}`
 }
 
+// const updateTodoTitleList = function() {
+//   let todoTitleList = JSON.parse(this.responseText);
+//   let titles = todoTitleList.reduce(function(accumulate,todoTitle,index){
+//   },'')
+//   document.getElementById('todoTitles').innerHTML = titles;
+// }
+
 const updateTodoTitleList = function() {
-  let todoTitleList = JSON.parse(this.responseText);
-  let titles = todoTitleList.reduce(function(accumulate,todoTitle,index){
-    return accumulate+=`<option value="${todoTitle}">`;
-  },'')
-  document.getElementById('todoTitles').innerHTML = titles;
+  let tokenTitlePairList = JSON.parse(this.responseText);
+  console.log("hi",tokenTitlePairList);
+  let titles = tokenTitlePairList.reduce(function(accumulate,tokenTitlePair,index){
+    let token=Object.keys(tokenTitlePair)[0];
+    let title = tokenTitlePair[token]
+    return accumulate+=`<li id="${token}" onclick='getTodo(this.id)'>${title}</li>`;
+  },"")
+  // console.log(document.getElementsByClassName('todoTitleList'));
+  document.getElementById('todoTitleList').innerHTML = titles;
 }
 
 const changeStatus = function(id){
   let srNo = id;
   let status = document.getElementById(id).checked;
-  let todoTitle = document.getElementById("todoTitle").value;
-  let date = document.getElementById('date').value
+  let todoToken = document.getElementById("todoToken").value;
   let xmlReq =  new XMLHttpRequest();
   xmlReq.open("POST",'/changeStatus');
-  xmlReq.send(`srNo=${srNo}&date=${getCurrentDate(date)}&todoTitle=${todoTitle}&status=${status}`);
+  xmlReq.send(`srNo=${srNo}&todoToken=${todoToken}&status=${status}`);
 }
 const updateTaskList = function () {
   let todo = JSON.parse(this.responseText);
   let tasks = todo.tasks;
+  let todoToken = todo.todoToken;
   let taskKeys = Object.keys(tasks);
   let todoTitle=todo.title;
   let todoDescription = todo.description;
@@ -44,6 +59,7 @@ const updateTaskList = function () {
   },``);
   document.getElementById("tasks").innerHTML = generatedTaskCode;
   document.getElementById("todoTitleHeader").innerHTML = todoTitle;
+  document.getElementById("todoToken").value = todoToken;
   document.getElementById("todoDescHeader").innerHTML = todoDescription;
   taskKeys.forEach(function(taskKey,index){
     let status= tasks[taskKey].completionStatus;
@@ -51,11 +67,9 @@ const updateTaskList = function () {
   })
 }
 
-const getTodo = function () {
-  let date = document.getElementById('date').value;
-  let todoTitle = document.getElementById('todoTitle').value;
+const getTodo = function (todoToken) {
   let xmlReq = new XMLHttpRequest();
   xmlReq.addEventListener('load',updateTaskList);
   xmlReq.open('POST','/getTodo');
-  xmlReq.send(`date=${getCurrentDate(date)}&todoTitle=${todoTitle}`)
+  xmlReq.send(`date=${getCurrentDate(date)}&todoToken=${todoToken}`)
 }

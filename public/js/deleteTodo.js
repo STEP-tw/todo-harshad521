@@ -1,10 +1,12 @@
 const deleteTodo = function () {
-  let date = document.getElementById('date').value;
-  let todoTitle = document.getElementById('todoTitle').value;
-  let xmlReq = new XMLHttpRequest();
-  xmlReq.addEventListener('load',updateTodoTitleList);
-  xmlReq.open('POST','/deleteTodo');
-  xmlReq.send(`date=${getCurrentDate(date)}&todoTitle=${todoTitle}`);
+  let a = document.getElementById('todoTitle');
+  console.log(a);
+  // let date = document.getElementById('date').value;
+  // let todoTitle = document.getElementById('todoTitle').value;
+  // let xmlReq = new XMLHttpRequest();
+  // xmlReq.addEventListener('load',updateTodoTitleList);
+  // xmlReq.open('POST','/deleteTodo');
+  // xmlReq.send(`date=${getCurrentDate(date)}&todoTitle=${todoTitle}`);
 }
 
 const getTodoTitlesOnDate =function () {
@@ -22,11 +24,15 @@ const getCurrentDate = function (date) {
   year = newDate.getFullYear();
   return `${year}-${month}-${day}`
 }
-
+const setTodoId=function (id) {
+  console.log("hi");
+}
 const updateTodoTitleList = function() {
-  let todoTitleList = JSON.parse(this.responseText);
-  let titles = todoTitleList.reduce(function(accumulate,todoTitle,index){
-    return accumulate+=`<option value="${todoTitle}">`;
-  },'')
+  let tokenTitlePairList = JSON.parse(this.responseText);
+  let titles = tokenTitlePairList.reduce(function(accumulate,tokenTitlePair,index){
+    let token=Object.keys(tokenTitlePair)[0];
+    let title = tokenTitlePair[token]
+    return accumulate+=`<option id='${token}' onselect=''setTodoId' value="${title}">`;
+  },"")
   document.getElementById('todoTitles').innerHTML = titles;
 }

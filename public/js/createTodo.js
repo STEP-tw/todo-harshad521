@@ -1,10 +1,17 @@
-let link ='/createTodo';
+const getCurrentDate = function () {
+  let date = new Date();
+  day = date.getDate();
+  month = date.getMonth()+1;
+  year = date.getFullYear();
+  return `${year}-${month}-${day}`
+}
+
 const createTodo = function() {
   let todoTitle = document.getElementById("todoTitle").value;
-  let token = document.getElementById("todoToken").innerText;
+  // let token = document.getElementById("todoToken").value;
   let xmlReq =  new XMLHttpRequest();
-  xmlReq.open("POST",link);
-  xmlReq.send(`todoTitle=${todoTitle}&token=${token}`);
+  xmlReq.open("POST",'/createTodo');
+  xmlReq.send(`todoTitle=${todoTitle}&date=${getCurrentDate()}`);
   disableCreateButton();
   enableOtherFields();
 }
@@ -23,13 +30,13 @@ const enableOtherFields = function () {
 }
 
 const addTodoDescription = function() {
-  let todoTitle = document.getElementById("todoTitle").value;
+  // let todoTitle = document.getElementById("todoTitle").value;
   let description = document.getElementById('todoDesc').value;
-  let token = document.getElementById("todoToken").innerText;
-  let date = getCurrentDate();
+  let token = document.getElementById("todoToken").value;
+  // let date = getCurrentDate();
   let xmlReq =  new XMLHttpRequest();
   xmlReq.open("POST",'/addDescription');
-  xmlReq.send(`todoTitle=${todoTitle}&date=${date}&todoDescription=${description}`);
+  xmlReq.send(`todoToken=${token}&todoDescription=${description}`);
   disableAddDescButton();
 }
 
@@ -38,7 +45,7 @@ const disableAddDescButton=function () {
   document.getElementById("addTodoDescription").style.visibility = "hidden";
 }
 const displayToken = function(){
-  document.getElementById('todoToken').innerText = this.responseText;
+  document.getElementById('todoToken').value = +this.responseText+1;
 }
 
 const getToken = function(){
@@ -48,33 +55,30 @@ const getToken = function(){
   xmlReq.send();
 }
 
-const getCurrentDate = function () {
-  let date = new Date();
-  day = date.getDate();
-  month = date.getMonth()+1;
-  year = date.getFullYear();
-  return `${year}-${month}-${day}`
-}
+// const getCurrentDate = function () {
+//   let date = new Date();
+//   day = date.getDate();
+//   month = date.getMonth()+1;
+//   year = date.getFullYear();
+//   return `${year}-${month}-${day}`
+// }
 
 const addTask = function(){
-  let todoTitle = document.getElementById("todoTitle").value;
   let taskTitle = document.getElementById("taskTitle").value;
-  let token = document.getElementById("todoToken").innerText;
-  let date = getCurrentDate();
+  let todoToken = document.getElementById("todoToken").value;
   let xmlReq =  new XMLHttpRequest();
   xmlReq.addEventListener('load',updateTaskList)
   xmlReq.open("POST",'/addTask');
-  xmlReq.send(`todoTitle=${todoTitle}&date=${date}&taskTitle=${taskTitle}`);
+  xmlReq.send(`todoToken=${todoToken}&taskTitle=${taskTitle}`);
 }
 
 const changeStatus = function(id){
   let srNo = id;
   let status = document.getElementById(id).checked;
-  let todoTitle = document.getElementById("todoTitle").value;
-  let date = getCurrentDate();
+  let todoToken = document.getElementById("todoToken").value;
   let xmlReq =  new XMLHttpRequest();
   xmlReq.open("POST",'/changeStatus');
-  xmlReq.send(`srNo=${srNo}&date=${date}&todoTitle=${todoTitle}&status=${status}`);
+  xmlReq.send(`srNo=${srNo}&todoToken=${todoToken}&status=${status}`);
 }
 
 const updateTaskList = function () {

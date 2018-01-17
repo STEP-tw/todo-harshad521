@@ -85,7 +85,11 @@ Account.prototype = {
   getTodoTitlesOnDate:function(date) {
     let todosOnGivenDate = this.getTodosOnDate(date);
     return todosOnGivenDate.map(function(todo){
-      return todo.getTitle();
+      let token = todo.getToken();
+      let title = todo.getTitle();
+      let tokenTitlePair = {}
+      tokenTitlePair[token]=title;
+      return tokenTitlePair;
     })
   },
   getTodoTitle:function (todoToken) {
