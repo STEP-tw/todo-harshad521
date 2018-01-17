@@ -7,7 +7,12 @@ const getTodoTitlesOnDate =function () {
 }
 
 const deleteTodo=function(){
-  alert(document.getElementById('todoToken').value);
+  let todoToken=document.getElementById('todoToken').value;
+  //let todoTitle = document.getElementById('todoTitle').value;
+  let xmlReq = new XMLHttpRequest();
+  xmlReq.addEventListener('load',updateTodoTitleList);
+  xmlReq.open('POST','/deleteTodo');
+  xmlReq.send(`todoToken=${todoToken}`);
 }
 
 const getCurrentDate = function (date) {

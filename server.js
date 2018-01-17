@@ -190,8 +190,19 @@ app.post('/deleteTodo',(req,res)=>{
   let userName = req.user.username;
   let todoToken=req.body.todoToken;
   myApp.deleteTodo(userName,todoToken)
-  let titles=myApp.getTodoTitlesOnDate(userName,date);
+  let titles=myApp.getTodoTitlesOnDate(userName,todoToken);
   res.write(toS(titles));
+  window.reload();
+  res.end();
+});
+app.post('/deleteTask',(req,res)=>{
+  let userName = req.user.username;
+  let todoToken=req.body.todoToken;
+  let srNo=req.body.srNo;
+  myApp.deleteTaskInTodo(userName,todoToken,srNo)
+  let todo=myApp.getTodo(userName,todoToken);
+  res.write(toS(todo));
+  //window.reload();
   res.end();
 });
 
